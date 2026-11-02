@@ -1,0 +1,14 @@
+name : "02- Understanding Events"
+on:
+    workflow_dispatch:
+    push:
+    pull_request:
+    schedule:
+       - cron : "*/7 * * * *"
+
+jobs:
+    even-info-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print Trigeer event
+              run: echo "My trigeer is ${{ github.event_name }} event"
