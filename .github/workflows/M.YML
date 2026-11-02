@@ -1,9 +1,0 @@
-name : "01 - understanding contexts"
-on: push
-jobs:
-    event-info-job:
-        runs-on: ubuntu-latest
-        steps:
-            - name : Print Trigeer Event
-              run: echo "My trigeer  event is   ${{github.event_name }} event" # with in the github context we are using a field hat is event name [it help us to categorize things ] github actions has categorized things into different context
-
