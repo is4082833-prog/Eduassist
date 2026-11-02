@@ -12,4 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name : Final Step
-        run : echo "Hello FrOM final"          
+        run : echo "Hello FrOM final"   
+      - name : another step
+        run : echo "add another step"         
+#each job gets its own virtual machines 
