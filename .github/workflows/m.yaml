@@ -1,6 +1,6 @@
 name : "02- Understanding Events"
 on:
-    workflow_dispatch:
+    workflow_dispatch:  #you also use lists but always recommend to use dict 
     push:
     pull_request:
     schedule:
