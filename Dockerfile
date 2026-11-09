@@ -18,7 +18,7 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 COPY --chown=appuser:appuser . .
-
+RUN mkdir -p /app/instance && chown -R appuser:appuser /app
 USER appuser
 EXPOSE 5000
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
