@@ -12,7 +12,15 @@ jobs:
             - name: Build Docker Images
               run: docker build -t myapp:1.0 .
             - name: Run Container
-              run: docker run -d --name myapp-ci -p 5000:5000 myapp:1.0
+              run: |
+                 docker run -d --name myapp-ci \
+                   -p 5000:5000 \
+                   -e DATABASE_URL=sqlite:///ci.db \
+                   -e SQLALCHEMY_DATABASE_URI=sqlite:///ci.db \
+                   -e JWT_SECRET_KEY=ci-test-secret \
+                   -e REDIS_URL= \
+                   myapp:1.0
+
             - name: Smoke Test
               run: | #this allows to write multiline things here 
                 sleep 5
