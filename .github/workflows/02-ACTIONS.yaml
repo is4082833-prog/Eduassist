@@ -1,4 +1,4 @@
-name: 01-Flask CI workflow
+name: 02-Flask CI workflow
 
 on:
   push:
