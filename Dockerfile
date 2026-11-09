@@ -21,4 +21,4 @@ COPY --chown=appuser:appuser . .
 
 USER appuser
 EXPOSE 5000
-CMD ["app.py","python"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
