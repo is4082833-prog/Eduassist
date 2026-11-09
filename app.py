@@ -182,7 +182,7 @@ def metrics():
 @app.before_request
 def log_request_info():
     print(f"Incoming Request -> URL: {request.path}, Method: {request.method}", flush=True)
-@app.route("/",methods=["GET"])
+@app.route("/health",methods=["GET"])
 @limiter.exempt
 def home():
     return jsonify({

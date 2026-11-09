@@ -1,0 +1,22 @@
+name: 01-Flask CI workflow
+
+on:
+    push:
+#this are depend on each other due to this reason it can be run in to same job
+jobs:
+    flask-ci-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+            - name: Build Docker Images
+              run: docker build -t myapp:1.0 .
+            - name: Run Container
+              run: docker run -d --name myapp-ci -p 5000:5000 myapp:1.0
+            - name: Smoke Test
+              run: | #this allows to write multiline things here 
+                sleep 5
+                curl -f http://localhost:5000/health || (docker logs myapp-ci && exit 1)
+            
+  
+                  
