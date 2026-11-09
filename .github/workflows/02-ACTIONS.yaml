@@ -1,0 +1,52 @@
+name: 01-Flask CI workflow
+
+on:
+  push:
+
+jobs:
+  flask-ci-job-2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          load: true
+          tags: imtiyaz03052007/cloud-flask-eduassist:latest
+
+      - name: Run Container
+        run: |
+          docker run -d --name myapp-ci \
+            -p 5000:5000 \
+            -e DATABASE_URL=sqlite:////tmp/ci.db \
+            -e SQLALCHEMY_DATABASE_URI=sqlite:////tmp/ci.db \
+            -e JWT_SECRET_KEY=ci-test-secret \
+            -e REDIS_URL= \
+            imtiyaz03052007/cloud-flask-eduassist:latest
+
+      - name: Smoke Test
+        run: |
+          for i in $(seq 1 15); do
+            if curl -sf http://localhost:5000/health > /dev/null; then
+              echo "App is up after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "App failed to start within 15s"
+          docker logs myapp-ci
+          exit 1
+
+      - name: Cleanup
+        if: always()
+        run: docker rm -f myapp-ci || true

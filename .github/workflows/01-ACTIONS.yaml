@@ -1,5 +1,5 @@
 name: 01-Flask CI workflow
-
+#pehle humne bina docker hub mein push kiye try kiya ab docker hub mein push krke try krenge 
 on:
     push:
 #this are depend on each other due to this reason it can be run in to same job
